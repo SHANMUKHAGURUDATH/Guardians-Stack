@@ -1,0 +1,10 @@
+{
+  "name": "Remix Guardian Stack",
+  "description": "AI-Powered Family Insurance, Medical Records, Digital Document Vault and Emergency Intelligence Platform",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

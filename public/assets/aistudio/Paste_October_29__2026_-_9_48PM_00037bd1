@@ -1,0 +1,1826 @@
+# GUARDIAN STACK — COMPLETE MASTER BUILD PROMPT
+## AI-Powered Family Insurance, Medical Records, Digital Document Vault and Emergency Intelligence Platform
+
+You are acting as a principal full-stack engineer, senior AI engineer, application security architect, product designer, database architect, QA engineer, and deployment engineer.
+
+Your mission is to BUILD a complete, functional, secure, production-oriented web application called **GUARDIAN STACK**.
+
+Do not merely explain how to build it. Implement the application in the available workspace. Create the actual frontend, backend, database structure, authentication flows, file storage integration, AI functionality, payment verification workflow, reminders, dashboards, error handling, tests, and deployment configuration.
+
+Do not stop after generating a landing page, dashboard mockup, or a chatbot UI.
+
+Every feature described below is part of the product specification. Do not remove, simplify away, rename, or silently omit any requirement. If a capability depends on external configuration, implement the integration and clearly identify the required configuration.
+
+---
+
+# 1. PRODUCT VISION
+
+Guardian Stack is a family protection and intelligence platform that brings a family's life insurance, health insurance, accident insurance, banking-related insurance, government schemes, group insurance, medical history, identity documents, nominees, premium schedules, and emergency information into one secure application.
+
+The application should help a family answer five important questions:
+
+1. What insurance policies and important documents does each family member have?
+2. What payments are due, which payments have been recorded, and which require verification?
+3. What does a specific insurance policy or medical document actually say?
+4. What should an authorized family member do during a medical or insurance emergency?
+5. Where is the exact document or page containing the required information?
+
+The platform must be built around document accuracy, family organization, privacy, and emergency readiness.
+
+It must not be an ordinary insurance dashboard with generic cards and a chatbot that invents answers.
+
+## Core product principles
+
+- Document-grounded answers rather than unsupported AI guesses.
+- No Retrieval-Augmented Generation (RAG).
+- No fabricated insurance coverage, payment confirmation, medical information, or claim eligibility.
+- No prepopulated personal information in real user accounts.
+- No decorative buttons that do nothing.
+- No simulated integrations presented as real integrations.
+- No publicly exposed medical or identity documents.
+- No unauthorized access to another family member's information.
+- Every critical action must have a visible result and an understandable status.
+- The UI must be visually distinctive, polished, responsive, and easy to navigate.
+- Emergency workflows must prioritize speed, readability, and safe access.
+
+# 2. REQUIRED TECHNOLOGY STACK
+
+Use the following architecture unless a genuine platform limitation requires an explicitly documented alternative.
+
+## Frontend
+
+- React.
+- TypeScript with strict type checking.
+- A modern, stable Vite-based frontend setup if appropriate for the generated workspace.
+- Tailwind CSS or an equally maintainable styling system.
+- Accessible, reusable UI components.
+- A consistent icon library such as Lucide.
+- Recharts or an equivalent library for meaningful data visualization.
+- React Hook Form and Zod, or equivalent tools, for form management and validation.
+
+Do not create one enormous component containing the entire application. Use a modular, maintainable architecture.
+
+## Backend
+
+- Firebase Authentication.
+- Cloud Firestore for structured application data.
+- Private Firebase Storage or an appropriate private cloud object-storage configuration for documents and payment evidence.
+- Firebase Cloud Functions or an appropriate authenticated server-side runtime for privileged operations.
+- Firebase App Check where supported.
+- Firebase Cloud Messaging for configured browser push notifications.
+- A scheduled backend process for payment reminders.
+- Gemini API calls from the server-side environment, never by exposing a secret API key in browser code.
+
+Use supported, compatible versions of the selected services.
+
+## AI
+
+Use Google Gemini through a server-side integration. Select an appropriate currently available model for document understanding and a suitable faster model for routine interactions when supported.
+
+Use configurable model identifiers instead of hardcoding an obsolete model name throughout the codebase.
+
+The system must remain usable for ordinary document management when the AI service is temporarily unavailable.
+
+## Maps
+
+Use Google Maps and an appropriate Places or hospital-discovery integration for the emergency hospital locator. Use a supported configuration and API restrictions.
+
+If the required Maps API is not configured, show a working Google Maps search or navigation fallback rather than a fake embedded map.
+
+## Deployment
+
+Design the application for cloud deployment using compatible Google Cloud and Firebase services.
+
+Provide:
+- Environment configuration.
+- Firebase project setup instructions.
+- Required API enablement instructions.
+- Database and storage rules.
+- Backend deployment instructions.
+- Database indexes where needed.
+- Scheduled-job setup.
+- A production build command.
+- A test command.
+- A deployment checklist.
+
+Never commit API secrets, service-account credentials, or private keys.
+
+# 3. ABSOLUTE AI ARCHITECTURE REQUIREMENT: NO RAG
+
+**Do not implement Retrieval-Augmented Generation (RAG).**
+
+Do not use:
+- Vector databases.
+- Embedding generation for semantic retrieval.
+- Vector similarity search.
+- A vector-store-backed retrieval pipeline.
+- A RAG framework or a hidden RAG abstraction.
+- A system that retrieves unrelated document chunks and sends them to the model as a substitute for understanding the user's actual documents.
+
+Instead, implement a direct document-processing and evidence-based answering architecture.
+
+## Required document intelligence pipeline
+
+### Stage A: Secure document ingestion
+
+When a user uploads a document:
+
+1. Authenticate the user.
+2. Verify authorization for the selected family member.
+3. Validate file type, file size, and file contents.
+4. Apply safe file-processing limits.
+5. Store the original file in private storage.
+6. Generate a cryptographic SHA-256 integrity hash.
+7. Assign an internal document ID.
+8. Extract document text using an appropriate parser or OCR service.
+9. Preserve page boundaries and page numbers.
+10. Store the extracted text and structured metadata in protected storage.
+11. Classify the document.
+12. Extract structured fields with confidence and evidence references.
+13. Save the processing status and report any extraction failures.
+
+Do not treat a filename as proof of the contents of a document.
+
+### Stage B: Structured information extraction
+
+For insurance documents, extract available fields such as:
+
+- Insurer name.
+- Policy number.
+- Product or policy name.
+- Policyholder.
+- Insured member.
+- Nominee.
+- Policy start date.
+- Policy end date or maturity date.
+- Premium amount.
+- Premium frequency.
+- Premium due date.
+- Sum assured or coverage amount.
+- Deductible or co-payment, where applicable.
+- Waiting periods.
+- Exclusions.
+- Grace period.
+- Renewal conditions.
+- Claim notification deadlines.
+- Claim documentation requirements.
+- Customer support details.
+- Relevant terms and conditions.
+
+For medical documents, extract relevant information such as:
+
+- Patient name and identifiers where present.
+- Document date.
+- Hospital or provider.
+- Visit or admission details.
+- Allergies explicitly documented.
+- Medications explicitly documented.
+- Test results and units.
+- Diagnoses stated in the document.
+- Procedures.
+- Discharge instructions.
+- Follow-up recommendations.
+- Relevant clinician contact details where present.
+
+For identity documents, extract only necessary information, store sensitive fields appropriately, and avoid displaying full identifiers unnecessarily.
+
+Every extracted field must retain:
+- Its source document ID.
+- The source page number when available.
+- The extracted text or evidence reference.
+- Its extraction status.
+- Its confidence or verification status.
+
+Distinguish between data explicitly stated in a document, data entered manually by the user, and data inferred by a model.
+
+### Stage C: Direct document lookup without RAG
+
+When a user asks a question:
+
+1. Determine the relevant family member and document category.
+2. Use structured database queries and ordinary indexed keyword or full-text searches to identify relevant records.
+3. Retrieve the exact stored field, relevant original-document page, or relevant extracted text passage.
+4. If needed, parse the selected original document page again.
+5. Supply only the necessary, authorized source evidence to Gemini.
+6. Require Gemini to produce an answer supported by that evidence.
+7. Return the answer alongside its source document and page references.
+8. Open the corresponding document or page when the user selects a citation.
+
+For complex questions, perform bounded, targeted lookups against original files or their stored text representations. Do not silently substitute an unrelated document or an unsupported general answer.
+
+Ordinary keyword indexing and direct database lookups are permitted. They must not be implemented as a disguised embedding-based RAG pipeline.
+
+### Stage D: Evidence-based answer validation
+
+Before presenting an AI answer:
+
+- Validate referenced document IDs against the current user's authorization.
+- Validate cited page numbers.
+- Verify that each factual claim is supported by the supplied evidence.
+- Distinguish explicit facts from interpretations.
+- Reject or qualify unsupported claims.
+- Never invent missing policy details.
+- Never claim that an insurer approved a claim unless an authoritative source actually confirms it.
+- Never claim that a payment was successful based solely on an AI interpretation of a screenshot.
+- Never invent a medical diagnosis, prescription, or emergency instruction.
+
+If the available documents cannot answer the question, explicitly state that the information was not found or could not be verified.
+
+Example:
+
+"I could not verify the grace period from the uploaded policy. Open the policy's terms and conditions or contact the insurer to confirm."
+
+Do not fill the gap with a guessed number.
+
+# 4. DESIGN DIRECTION — ORIGINAL PREMIUM USER INTERFACE
+
+The visual quality of Guardian Stack is a critical requirement.
+
+Do not generate a generic SaaS template, a repetitive collection of identical cards, a plain white dashboard, or an interface resembling a default AI-generated admin panel.
+
+Create a recognizable visual identity for Guardian Stack.
+
+## Brand
+
+Name: GUARDIAN STACK.
+
+Suggested tagline: "Every policy. Every record. Every family, protected."
+
+Create a custom shield-inspired brand mark that communicates protection, clarity, and continuity.
+
+Use a premium visual system inspired by carefully designed financial technology and healthcare applications, but do not copy an existing company's interface.
+
+## Themes
+
+Provide light and dark themes.
+
+The dark theme should use:
+- Deep midnight navy.
+- Graphite and blue-black surfaces.
+- Restrained teal or mint accents.
+- Clear neutral typography.
+- Subtle gradients where appropriate.
+- Controlled glow effects only for meaningful interactive elements.
+
+The light theme should use:
+- Warm, refined neutral backgrounds.
+- White or subtly tinted surfaces.
+- Deep navy text.
+- Carefully selected teal accents.
+- Clear borders and restrained shadows.
+
+Both themes must preserve the same design language and information hierarchy.
+
+Add a persistent theme selector in settings or the profile menu. Persist the preference across sessions.
+
+## Layout requirements
+
+### Top navigation
+
+The top-left corner must contain a three-horizontal-line hamburger menu.
+
+When clicked, it opens a left-side navigation drawer.
+
+The drawer must close when:
+- The close control is clicked.
+- The user selects a destination, where appropriate.
+- The user clicks outside the drawer on desktop.
+- The user presses Escape.
+
+On mobile, use a properly sized overlay drawer.
+
+The top bar should include:
+- Guardian Stack logo.
+- Current page title or contextual breadcrumb.
+- A notification indicator.
+- A profile menu.
+- A visible Emergency Mode entry point.
+
+Do not permanently display every navigation item across the screen. The hamburger menu is the primary navigation mechanism.
+
+### Left navigation drawer
+
+Include the following sections:
+
+1. Overview.
+2. Family Members.
+3. Insurance Policies.
+4. Add Policy / Upload Documents.
+5. Medical Passport.
+6. Coverage Analysis.
+7. Family Nominees.
+8. Premium Calendar.
+9. Payment Verification.
+10. Documents Vault.
+11. Ask AI.
+12. Emergency Mode.
+13. Notifications.
+14. Activity and Security Log.
+15. Settings.
+16. Help and Support.
+
+Organize them into logical groups. Keep the navigation compact and readable.
+
+### Persistent AI assistant
+
+Create a persistent AI assistant entry point in the bottom-right corner, visually positioned toward the southeast corner of the viewport.
+
+On desktop, show a compact floating assistant control with a subtle pulse or indicator when appropriate.
+
+On mobile, position it above important bottom navigation or action areas and account for safe-area insets.
+
+When clicked, open a conversational panel that can expand to a larger workspace.
+
+The assistant must:
+- Understand the current user question.
+- Allow selection of a family member.
+- Search authorized documents.
+- Display cited answers and exact document locations.
+- Offer direct actions such as opening a policy, viewing a payment, or displaying a reminder.
+- Support English, Telugu, Hindi, and other supported languages when requested.
+- Retain relevant conversation context within the current session without confusing one family member's records with another's.
+- Remain available during Emergency Mode.
+- Show clear loading, empty, error, and unavailable states.
+- Never claim to have completed an action that has not actually completed.
+
+The chatbot must be implemented as a real working feature, not a static mock conversation.
+
+# 5. AUTHENTICATION AND FIRST-TIME EXPERIENCE
+
+Implement a proper authentication flow before any private application page becomes accessible.
+
+## Authentication pages
+
+Create:
+- Sign-in page.
+- Account registration page.
+- Password-reset flow.
+- Email verification where configured.
+- Sign-out functionality.
+- Session persistence.
+- Authentication error states.
+- Optional Google sign-in if properly configured.
+- Appropriate reauthentication for sensitive actions.
+
+The login experience must match the premium Guardian Stack brand.
+
+Use a distinctive split layout or similarly polished composition, with a refined illustration or original geometric visual, concise copy, accessible forms, and responsive behavior.
+
+Do not display private family records before authentication and authorization have completed.
+
+Never hardcode a shared username or password.
+
+## New account initialization
+
+Every real newly registered user must start with an EMPTY family workspace.
+
+Do not insert a real father, mother, sons, insurance policies, medical records, nominees, payment histories, or identity documents into a newly registered account.
+
+Create a separate optional DEMO MODE containing four fictional sample profiles:
+- Father.
+- Mother.
+- Son 1.
+- Son 2.
+
+All demo data must be clearly labelled as fictional. Demo records must never be mixed with a real account's records.
+
+## Account isolation
+
+Every family, member, policy, document, payment, reminder, and medical record must belong to an authenticated account or an explicitly authorized family-sharing relationship.
+
+A user must never access another account's records by changing a URL, document ID, database ID, or API request.
+
+Enforce authorization on the backend and through database and storage rules.
+
+Frontend checks alone are not security.
+
+# 6. MAIN DASHBOARD
+
+Create an elegant, information-rich dashboard without overwhelming the user.
+
+## Header area
+
+Display a contextual welcome message, a concise summary of family protection status, and a quick-action area.
+
+Quick actions:
+- Add Family Member.
+- Upload Policy.
+- Add Medical Record.
+- Record Premium Payment.
+- Open Emergency Mode.
+- Ask AI.
+
+## Central family coverage visualization
+
+Create a distinctive, interactive family visualization as the central visual element.
+
+For demo mode, show four fictional profiles:
+- Father.
+- Mother.
+- Son 1.
+- Son 2.
+
+For real accounts, render only the members the user has added.
+
+Each profile must show:
+- Avatar or uploaded profile photo.
+- Display name.
+- Relationship.
+- Number of associated documents.
+- Number of insurance policies.
+- Relevant upcoming premium obligations.
+- A concise coverage status when sufficient data exists.
+
+Do not display fabricated profile photos or claim amounts for real users.
+
+### Profile interaction
+
+When a user clicks a family member's face or profile:
+
+Open that member's detailed workspace.
+
+Include:
+- Insurance policies.
+- Health insurance.
+- Life insurance.
+- Accident insurance.
+- Banking and credit-card-related insurance.
+- Government schemes.
+- Group insurance.
+- Medical records.
+- Identity documents.
+- Other documents.
+- Nominees and relationships.
+- Premium schedule.
+- Payment history.
+- Important reminders.
+- Recent activity.
+
+Every document must be clickable.
+
+Use a clear profile layout with tabs or grouped sections rather than placing every document in a single endless list.
+
+### Dashboard statistics
+
+Calculate statistics from actual records:
+- Total recorded policies.
+- Total recorded coverage, where comparable and meaningful.
+- Policies with verified active status.
+- Upcoming premiums.
+- Overdue payment obligations.
+- Payments awaiting verification.
+- Missing or incomplete document fields.
+- Medical records by family member.
+
+Never add together unrelated coverage types without explaining the calculation.
+
+If a statistic has insufficient data, show "Not available" or "Add your first policy," not zero when zero would be misleading.
+
+# 7. FAMILY MEMBER MANAGEMENT
+
+Allow users to create, edit, view, and archive family member profiles.
+
+Fields may include:
+- Full name.
+- Relationship.
+- Date of birth.
+- Optional profile photo.
+- Preferred language.
+- Optional contact details.
+- Emergency contact.
+- Relevant consent and sharing preferences.
+
+Do not require unnecessary personal data.
+
+For every member, provide a dedicated profile page with document categories, policies, payments, reminders, and medical records.
+
+Allow the user to associate an existing document with the correct family member.
+
+If the document appears to identify a different person, flag the mismatch for confirmation. Do not silently reassign sensitive records.
+
+Allow duplicate detection using sensible metadata checks, but ask for confirmation before merging records.
+
+# 8. INSURANCE POLICY MANAGEMENT
+
+Create a full policy-management module.
+
+## Policy categories
+
+Provide these categories:
+
+1. Life Insurance.
+2. Health Insurance.
+3. Accident Insurance.
+4. Bank or Credit Card Insurance.
+5. Government Scheme Insurance.
+6. Group Insurance.
+7. Other Insurance.
+
+Medical records and identity documents must be separate document categories rather than being incorrectly classified as insurance policies.
+
+## Add Policy workflow
+
+Support:
+- PDF upload.
+- Supported image uploads.
+- Manual policy entry.
+- Editing extracted details.
+- Reviewing AI-extracted fields.
+- Confirming extracted values.
+- Attaching multiple supporting documents.
+- Assigning a policy to one or more appropriate family members.
+- Recording nominee details.
+- Recording premium frequency and due dates.
+- Setting a renewal or maturity reminder.
+- Viewing the original document.
+- Viewing a processing status.
+
+After an upload, show a structured review screen before treating extracted information as confirmed.
+
+Possible processing states:
+- Uploaded.
+- Processing.
+- Extraction completed.
+- Needs review.
+- Confirmed by user.
+- Failed.
+- Archived.
+
+Do not mark a policy as verified merely because a PDF was uploaded.
+
+## Policy detail page
+
+Show:
+- Insurer.
+- Policy name.
+- Policy number, masked where appropriate.
+- Policyholder.
+- Insured member.
+- Nominee.
+- Coverage amount.
+- Premium amount.
+- Premium frequency.
+- Next due date.
+- Policy term.
+- Renewal or maturity date.
+- Important exclusions.
+- Waiting periods.
+- Grace period, if documented.
+- Claim requirements.
+- Source document.
+- Extraction and verification status.
+
+Allow the user to click an individual field to see its evidence source.
+
+# 9. DOCUMENT VAULT AND DOCUMENT CATEGORIES
+
+Create a secure document vault with categories for:
+
+### Insurance
+- Life insurance.
+- Health insurance.
+- Accident insurance.
+- Bank and credit-card-related insurance.
+- Government scheme insurance.
+- Group insurance.
+- Other insurance.
+
+### Medical
+- Prescriptions.
+- Lab reports.
+- Medical scans and reports.
+- Discharge summaries.
+- Consultation records.
+- Vaccination records.
+- Allergy records.
+- Other medical documents.
+
+### Identity
+- Aadhaar card.
+- PAN card.
+- Passport.
+- Driving licence.
+- Other identity documents.
+
+### Other
+- Family documents.
+- Supporting financial documents.
+- Legal documents.
+- Miscellaneous records.
+
+Use privacy-conscious handling of Aadhaar and other identity information.
+
+Do not display full identity numbers in dashboard cards, notifications, AI chat previews, or logs. Mask them by default.
+
+## Document library UI
+
+Provide:
+- Search.
+- Category filters.
+- Family-member filters.
+- Date filters.
+- Sorting.
+- File type indicators.
+- Upload dates.
+- Processing status.
+- Document integrity status.
+- Preview.
+- Download, subject to authorization.
+- Rename.
+- Edit metadata.
+- Archive.
+- Delete with confirmation.
+- Clear error states.
+
+Every document must be directly navigable from relevant policy, member, payment, medical, and AI answer screens.
+
+Never make the user hunt through unrelated pages to locate a referenced file.
+
+## Storage and file processing
+
+Use private storage and short-lived authorized access mechanisms.
+
+Validate actual file contents, not only the filename extension.
+
+Limit file size and supported file types.
+
+Prevent unauthorized public access.
+
+Use safe PDF and image processing, appropriate OCR, and bounded extraction workloads.
+
+Report corrupted, encrypted, unreadable, or unsupported files clearly.
+
+If malware scanning is available through an appropriate configured service, integrate it. Otherwise, document the limitation and use safe file-processing practices.
+
+# 10. MEDICAL PASSPORT
+
+Create a dedicated Medical Passport for each family member.
+
+The objective is to make the person's documented medical history easier to locate when they move between hospitals or healthcare providers.
+
+## Medical Passport sections
+
+1. Patient overview.
+2. Known allergies explicitly recorded.
+3. Current medications as documented.
+4. Medical conditions explicitly recorded.
+5. Past hospital visits.
+6. Admission and discharge records.
+7. Lab reports.
+8. Diagnostic reports.
+9. Prescriptions.
+10. Vaccination records.
+11. Procedures and surgeries.
+12. Emergency contacts.
+13. Treating providers where recorded.
+14. Uploaded medical documents.
+15. Recent changes and audit history.
+
+Display the source and date for medical information wherever possible.
+
+Distinguish user-entered data from extracted data and clinician-documented information.
+
+Do not infer that an old prescription is still current.
+
+Do not automatically convert an AI interpretation into a medical diagnosis.
+
+## Hospital-transfer summary
+
+Provide a printable and downloadable medical summary for authorized use.
+
+Include only the information the user selects or is authorized to share.
+
+The summary should identify:
+- Patient.
+- Summary generation date.
+- Documented allergies.
+- Relevant medications and their source dates.
+- Relevant recorded conditions.
+- Recent hospitalizations.
+- Relevant test results.
+- Emergency contacts.
+- Source documents.
+
+Clearly label the summary as a compilation of recorded information, not a substitute for professional medical evaluation.
+
+Support exporting to PDF when technically feasible and reliable.
+
+Do not claim integration with hospital information systems unless a real, authorized integration has been implemented.
+
+# 11. COVERAGE ANALYSIS AND FAMILY PROTECTION INTELLIGENCE
+
+Build a coverage analysis module that explains a family's documented insurance situation.
+
+## Required analysis
+
+- Summarize recorded life-insurance coverage.
+- Summarize health-insurance coverage.
+- Identify overlapping policies.
+- Identify policies with missing information.
+- Flag recorded policies that may require renewal or status confirmation.
+- Identify missing nominee information.
+- Identify upcoming premium obligations.
+- Identify documents that appear incomplete or unreadable.
+- Identify inconsistencies between manually entered information and extracted policy information.
+- Provide a checklist of questions to confirm with the insurer.
+- Highlight possible family coverage gaps based on user-provided assumptions.
+
+Never invent a universal recommended coverage amount.
+
+If calculating a suggested amount, clearly state the assumptions, user-provided figures, calculation method, and limitations.
+
+Distinguish between:
+- Confirmed document facts.
+- User-entered information.
+- AI-identified possible issues.
+- Information requiring insurer confirmation.
+
+Do not claim that a policy is active solely because its expiry date is in the future. Active status may depend on premium payment, policy terms, grace periods, or insurer records.
+
+Use charts only when they communicate real information. Every chart must be calculated from actual records.
+
+# 12. FAMILY NOMINEES AND BENEFICIARIES
+
+Create a dedicated Nominees module.
+
+Allow users to record:
+- Nominee name.
+- Relationship to the policyholder.
+- Associated policy.
+- Nominee share or percentage where applicable.
+- Date last verified.
+- Source document.
+- Verification status.
+
+Support multiple nominees where the relevant policy permits them.
+
+Warn when recorded shares do not total 100%, where applicable.
+
+Do not assume that a family relationship automatically makes a person a legal nominee or beneficiary.
+
+Do not claim that the stored information establishes legal entitlement. Explain when insurer confirmation or professional advice is needed.
+
+Provide a clear relationship view between family members, policyholders, insured persons, and nominees.
+
+# 13. PREMIUM CALENDAR AND PAYMENT REMINDERS
+
+This is a core feature and must be implemented as a real, persistent workflow.
+
+Users manually enter premium schedules from their actual policies.
+
+## Schedule fields
+
+- Associated family member.
+- Policy.
+- Insurer.
+- Premium amount.
+- Currency.
+- Frequency.
+- Next due date.
+- Optional grace-period information, only when documented.
+- Reminder preferences.
+- Notes.
+- Current payment status.
+
+Support:
+- Monthly.
+- Quarterly.
+- Half-yearly.
+- Yearly.
+- One-time payments.
+- Custom recurrence intervals.
+
+Do not assume that every insurer uses the same schedule.
+
+## Reminder system
+
+Automatically generate upcoming reminders based on the manually confirmed schedule.
+
+Provide configurable reminder timing, such as:
+- 30 days before due date.
+- 14 days before due date.
+- 7 days before due date.
+- 3 days before due date.
+- On the due date.
+- After the due date, when appropriate.
+
+Allow users to customize the timing.
+
+Prevent duplicate reminders for the same obligation and reminder interval.
+
+When a user records a payment, reconcile the payment with the appropriate scheduled obligation and update the schedule only according to the configured payment workflow.
+
+For recurring premiums, create the next due date from the confirmed recurrence rule. Do not silently change the policy's underlying terms.
+
+If a due date or premium amount is missing, ask the user to provide it.
+
+## Notification channels
+
+Implement:
+- In-app notifications.
+- Browser push notifications where permission has been granted and the service is configured.
+- Email reminders where an actual email provider or supported Firebase email workflow is configured.
+
+Notifications must be generated by backend scheduling, not only by a frontend timer.
+
+Show:
+- Notification title.
+- Policy.
+- Family member.
+- Due date.
+- Amount where appropriate.
+- Action to open the policy.
+- Action to record a payment.
+- Current status.
+
+Respect notification preferences and avoid sending sensitive medical or identity details in notification content.
+
+## Payment dashboard
+
+Create a dedicated view with:
+- Upcoming payments.
+- Due today.
+- Overdue obligations.
+- Awaiting payment evidence.
+- Awaiting verification.
+- Verified payments.
+- Rejected payment submissions.
+
+These statuses must be based on persisted records, not hardcoded sample values.
+
+# 14. TWO-STEP PREMIUM PAYMENT VERIFICATION
+
+Implement a strict payment-evidence workflow.
+
+The user must not be able to mark an insurance premium as verified by merely clicking "Paid."
+
+## Step 1 — Submit payment evidence
+
+When a user pays an insurance premium outside Guardian Stack, provide a "Record Payment" action.
+
+Ask the user to select:
+- Family member.
+- Insurance policy.
+- Premium obligation.
+- Payment date.
+- Amount paid.
+- Currency.
+- Payment method, if desired.
+- Optional transaction reference.
+
+Require the user to upload a payment screenshot or an appropriate proof-of-payment file.
+
+Store the evidence in private storage.
+
+Validate the file and associate it with the exact payment record.
+
+Calculate a SHA-256 hash for the uploaded evidence.
+
+Allow a user to submit a replacement screenshot if the original was incorrect, preserving the appropriate audit history.
+
+## Step 2 — Verify and confirm
+
+After evidence is uploaded:
+
+1. Show the user a review screen with the screenshot, policy, amount, date, and obligation.
+2. Ask the user to explicitly confirm the details.
+3. Require recent authentication or an appropriate second verification step for this sensitive action.
+4. Record the authenticated user's confirmation and timestamp.
+5. Set the payment to "Pending verification" until the evidence is sufficiently checked.
+6. If a designated family administrator or authorized reviewer is configured, allow that person to approve or reject the submission.
+7. Preserve the review result and audit history.
+
+Where no independent reviewer or authoritative payment integration exists, do not represent the payment as independently verified by the insurer.
+
+Provide the following states:
+- Not paid / awaiting payment.
+- Evidence required.
+- Evidence submitted.
+- Awaiting verification.
+- Verified by authorized reviewer.
+- Rejected.
+- Needs resubmission.
+- Disputed.
+
+Use the appropriate status for the available evidence and workflow.
+
+## Evidence analysis
+
+Gemini may assist in reading a payment screenshot and extracting:
+- Displayed amount.
+- Displayed transaction date.
+- Displayed recipient or merchant.
+- Displayed transaction reference.
+- Displayed transaction status.
+
+This analysis is advisory only.
+
+Flag mismatches between the screenshot and the recorded premium.
+
+Do not claim that the screenshot proves funds reached the insurer.
+
+Do not mark a payment as verified merely because a screenshot says "Success."
+
+Independent verification requires an appropriate authoritative confirmation or an authorized review process.
+
+Never create a fake banking integration or fabricate transaction results.
+
+## Payment history
+
+Each payment must retain:
+- Associated policy.
+- Family member.
+- Amount.
+- Currency.
+- Payment date.
+- Evidence file reference.
+- Evidence SHA-256 hash.
+- Submission timestamp.
+- Verification status.
+- Reviewer or confirming user, where applicable.
+- Verification timestamp.
+- Rejection reason, if any.
+- Audit events.
+
+Use a clear visual timeline.
+
+# 15. SOS AND EMERGENCY MODE
+
+Emergency Mode must be quickly accessible from the main interface and AI assistant.
+
+Create a highly readable, focused emergency interface that reduces unnecessary navigation.
+
+## SOS button
+
+Provide a clearly identifiable SOS action.
+
+Before sharing location, request appropriate browser permission.
+
+When location is available:
+- Obtain the current coordinates.
+- Display the location and its freshness.
+- Show nearby hospitals using the configured Maps or Places integration.
+- Show hospital names and available address information.
+- Offer navigation links.
+- Allow the user to select a hospital.
+- Provide an option to call a displayed contact when a valid phone number is available.
+
+Do not claim a hospital is the nearest unless the search results and distance calculation support that claim.
+
+Do not automatically send the user's location to third parties without clear authorization.
+
+If location permission is denied:
+- Explain how to enable it.
+- Offer manual location entry.
+- Provide a Google Maps hospital-search fallback.
+
+If Maps or Places is unavailable, provide an appropriate fallback and a visible service status.
+
+## Emergency family information
+
+Display only the information authorized for the current user and emergency context.
+
+Include:
+- Emergency contacts.
+- Relevant family-member profiles.
+- Relevant medical passport information.
+- Recorded allergies.
+- Current medication information with source dates.
+- Relevant insurance policy summaries.
+- Policy and insurer contact details where available.
+- Claim contact details and documented requirements.
+- Links to original documents.
+- Recent hospital-transfer summary.
+
+Use prominent "Open original document" actions.
+
+## Emergency AI
+
+The AI assistant must remain available in Emergency Mode.
+
+It should answer questions such as:
+- "Where is my father's health insurance policy?"
+- "Which document contains the allergy information?"
+- "What is the recorded policy number?"
+- "Which hospital is closest to my current location?"
+- "What documents does this policy say are needed for a claim?"
+- "How do I locate the latest discharge summary?"
+
+Answers must be fast, source-grounded, and permission-checked.
+
+Prioritize short, actionable responses in emergencies.
+
+Do not invent emergency contacts, policy coverage, medical allergies, hospital availability, or claim requirements.
+
+Do not delay an emergency call while attempting lengthy AI processing.
+
+Display an appropriate local emergency contact option. For India, provide 112 as an emergency-call option, with suitable regional configuration and a clear statement that the application cannot guarantee that the call will connect.
+
+Do not claim that an ambulance, hospital, insurer, or family contact has been notified unless a real integration has successfully confirmed the action.
+
+# 16. ASK AI — POLICY AND DOCUMENT ASSISTANT
+
+Create a dedicated AI workspace as well as the persistent bottom-right assistant.
+
+The assistant should be able to answer questions about the user's authorized records, policies, medical documents, nominees, premium obligations, and emergency information.
+
+## Example questions
+
+- "What is the annual premium for this policy?"
+- "When is the next premium due?"
+- "Show me the page where the grace period is mentioned."
+- "Does the uploaded document state a waiting period?"
+- "Who is recorded as the nominee?"
+- "Which policies belong to my mother?"
+- "Which payment needs verification?"
+- "What documents are mentioned in the claim procedure?"
+- "Find the most recent discharge summary."
+- "Compare the recorded premiums of these two policies."
+- "What information is missing from this policy record?"
+
+## Mandatory answer format
+
+When applicable, present:
+
+**Answer:** A concise response to the question.
+
+**Evidence:** The specific document or stored record supporting the answer.
+
+**Location:** Document name and page number, where available.
+
+**Confidence/status:** Verified from source, extracted but unconfirmed, user-entered, or not found.
+
+**Next action:** An appropriate action such as opening the document, reviewing an extracted field, recording a payment, or contacting the insurer.
+
+Do not force unnecessary sections into simple answers.
+
+## Source navigation
+
+Each cited source must be clickable.
+
+When a user selects a citation:
+- Open the associated document.
+- Navigate to the relevant page if supported.
+- Highlight the matching extracted passage where technically feasible.
+- Show the document name and page number.
+- Offer a way to return to the AI conversation.
+
+Never fabricate page numbers.
+
+If OCR does not preserve reliable page boundaries, say that a precise page reference is unavailable.
+
+## Conversation reliability
+
+The AI must not:
+- Confuse family members.
+- Mix documents from different accounts.
+- Use one policy's conditions to answer about another policy.
+- Present general insurance knowledge as a fact stated in the user's policy.
+- Invent amounts, dates, names, or clauses.
+- Claim to have opened or updated a record without an actual successful operation.
+
+For general questions, clearly distinguish general information from the user's own policy terms.
+
+For consequential insurance or medical questions, direct the user to the appropriate insurer or qualified professional when source documents are insufficient.
+
+# 17. DOCUMENT NAVIGATION AND UNIVERSAL SEARCH
+
+Provide a global search interface.
+
+Allow searching by:
+- Family member.
+- Policy name.
+- Insurer.
+- Policy number, with appropriate access controls.
+- Document title.
+- Document category.
+- Extracted text.
+- Premium due date.
+- Nominee.
+- Medical document date.
+
+Use ordinary indexed search and structured queries, not vector embeddings.
+
+Every result should display:
+- Document or record title.
+- Family member.
+- Category.
+- Relevant date.
+- A short matched-text preview where safe.
+- Processing or verification status.
+- A direct open action.
+
+Search results must respect the same authorization rules as direct document access.
+
+Do not return unauthorized records even if their titles or identifiers are guessed.
+
+# 18. SECURITY ARCHITECTURE
+
+Security is mandatory because the application handles insurance, financial, medical, and identity information.
+
+## Authentication and authorization
+
+- Use Firebase Authentication.
+- Enforce server-side authorization for privileged operations.
+- Apply least-privilege access.
+- Scope every record to the correct account and family.
+- Implement secure family-sharing permissions if sharing is supported.
+- Require reauthentication for sensitive actions where appropriate.
+- Prevent insecure direct object references.
+- Protect against unauthorized file downloads.
+- Never trust a user ID supplied by the browser without validating the authenticated identity.
+
+## Encryption
+
+- Use HTTPS/TLS for network communications.
+- Use appropriate encryption at rest for database and storage services.
+- Keep secrets and encryption keys out of client code and source control.
+- Use supported key-management services for sensitive encryption operations.
+- Define key rotation and access-control practices.
+- Avoid logging sensitive document contents or identity numbers.
+
+## SHA-256 document integrity
+
+Implement SHA-256 hashing for uploaded documents and payment evidence.
+
+For each file:
+1. Calculate SHA-256 using a trusted implementation.
+2. Store the hash with the document metadata.
+3. Recalculate the hash when verifying file integrity.
+4. Compare the calculated hash with the stored hash.
+5. Display a clear integrity status.
+
+A matching hash indicates that the bytes match the recorded version; it does not prove that the document is authentic, legally valid, or issued by an insurer.
+
+Use a trusted cryptographic library or supported cryptographic implementation. Do not write an improvised cryptographic algorithm.
+
+Do not describe SHA-256 as encryption.
+
+## Password security
+
+Delegate password storage to Firebase Authentication or an appropriate established authentication provider.
+
+If a custom password system is ever implemented, use a dedicated password-hashing algorithm such as Argon2id or an appropriate supported alternative, with suitable parameters and salts.
+
+Never store plaintext passwords or reversible password representations.
+
+## Database security
+
+Implement restrictive Firestore security rules.
+
+Default to deny.
+
+Allow users to access only authorized documents and records.
+
+Validate permitted fields and data types where feasible.
+
+Do not rely on hiding UI elements as an authorization mechanism.
+
+Protect against cross-account reads and writes.
+
+## Storage security
+
+- Use private buckets and objects.
+- Validate access to every upload and download.
+- Use short-lived authorized access mechanisms where suitable.
+- Prevent public document URLs.
+- Avoid storing long-lived signed URLs in broadly accessible database fields.
+- Restrict content types and sizes.
+- Maintain document ownership and metadata.
+- Handle deletions consistently across metadata, extracted text, and stored files.
+
+## Additional protections
+
+Implement:
+- Rate limiting for sensitive AI and upload operations.
+- Input validation.
+- Output validation.
+- Safe error handling.
+- Audit logging.
+- Appropriate session protection.
+- Dependency and configuration checks.
+- Protection against common web application vulnerabilities.
+- Cross-site scripting protections.
+- CSRF protection where applicable.
+- Appropriate security headers.
+- Abuse prevention for AI endpoints.
+- Server-side validation of file ownership and payment submissions.
+
+Treat document text as untrusted input. A malicious PDF may contain instructions designed to manipulate the AI. Never let uploaded document content override system rules, authorization checks, or security controls.
+
+Do not send private medical, identity, or financial information to external AI services unless the operation is authorized and appropriate disclosures and data-handling configuration are in place.
+
+# 19. DATABASE DESIGN
+
+Design a normalized, maintainable data model that supports the complete product.
+
+Use collections or equivalent structures for:
+
+- users
+- familyGroups
+- familyMemberships
+- familyMembers
+- policies
+- documents
+- documentExtractions
+- medicalRecords
+- nominees
+- premiumSchedules
+- paymentRecords
+- paymentEvidence
+- reminders
+- notifications
+- emergencyContacts
+- aiConversations
+- aiMessages
+- auditEvents
+- userPreferences
+- documentProcessingJobs
+
+Use consistent identifiers and timestamps.
+
+Every record must have a clearly defined owner and access policy.
+
+Store document metadata separately from file bytes.
+
+Use references to original documents rather than copying sensitive document contents into unrelated collections.
+
+Avoid unrestricted unbounded arrays of documents or messages in a single database record.
+
+Define indexes for common queries.
+
+Use server timestamps for security-sensitive events.
+
+Implement pagination for large lists.
+
+Handle concurrent updates to premium schedules and payment records safely.
+
+Use transactions or equivalent atomic operations when necessary.
+
+Prevent duplicate reminder generation through idempotent scheduled jobs and unique reminder keys.
+
+Document the data model and the purpose of every major collection.
+
+# 20. BACKEND API AND BUSINESS LOGIC
+
+Create secure backend functions or endpoints for:
+
+- Profile management.
+- Family member creation and updates.
+- Policy creation and updates.
+- Document upload authorization.
+- Document processing.
+- Structured extraction.
+- Document search.
+- Source-grounded AI questions.
+- Medical record management.
+- Nominee management.
+- Premium schedule management.
+- Payment evidence submission.
+- Payment verification.
+- Reminder scheduling.
+- Notification dispatch.
+- Emergency hospital lookup.
+- SHA-256 integrity verification.
+- Account data export and deletion.
+- Audit event creation.
+
+For every endpoint:
+- Validate authentication.
+- Validate authorization.
+- Validate request data.
+- Handle expected failures.
+- Return a consistent response format.
+- Avoid exposing stack traces or secrets.
+- Record appropriate audit events.
+- Enforce idempotency for retryable operations where necessary.
+
+Do not implement privileged operations solely in frontend JavaScript.
+
+# 21. AUTOMATION AND FUTURE-DATE PREDICTION
+
+Implement safe, useful automation based on user-provided records.
+
+The system may identify:
+- Repeated premium schedules.
+- Upcoming renewal dates.
+- Potential duplicate policies.
+- Missing document fields.
+- Inconsistent premium amounts.
+- Unusual changes in recorded payment patterns.
+- Potentially overdue obligations.
+
+Every prediction must have a clear explanation.
+
+Use simple, deterministic rules for recurring-date calculations whenever possible.
+
+AI can suggest a recurring schedule, but the user must confirm it before it becomes active.
+
+Do not claim to predict future system failures or insurance claim outcomes with certainty.
+
+If analyzing application performance or capacity, use measured metrics, explicit workload assumptions, and appropriate capacity models.
+
+Do not invent live system metrics.
+
+# 22. ERROR HANDLING AND RECOVERY
+
+Implement user-friendly error handling throughout the application.
+
+Handle:
+- Failed authentication.
+- Expired sessions.
+- Network interruptions.
+- Upload failures.
+- Corrupted files.
+- OCR failures.
+- Gemini rate limits.
+- Gemini outages.
+- Invalid API configuration.
+- Storage permission errors.
+- Database permission errors.
+- Failed reminders.
+- Duplicate submissions.
+- Payment verification failures.
+- Maps API errors.
+- Browser location permission denial.
+- Notification permission denial.
+- Concurrent updates.
+- Unsupported file types.
+- Large document uploads.
+- Missing required policy fields.
+
+For every important failure:
+- Explain what happened in plain language.
+- State whether the operation was completed.
+- Preserve valid user input where possible.
+- Offer a safe retry or recovery action.
+- Record diagnostic details on the server without exposing sensitive information.
+
+Never show a false success message after a failed operation.
+
+Do not erase an uploaded document or payment submission merely because AI processing failed.
+
+# 23. PERFORMANCE AND SCALABILITY
+
+Design for responsive behavior and efficient processing.
+
+Implement:
+- Lazy loading for large document lists.
+- Pagination.
+- Debounced search.
+- Efficient database queries.
+- Bounded file-processing workloads.
+- Background processing for large documents.
+- Caching only where safe and appropriate.
+- Reuse of confirmed extracted data when the source document has not changed.
+- Rate limits and request timeouts.
+- Appropriate retry policies.
+- Idempotent scheduled jobs.
+- Monitoring for failed background jobs.
+
+Do not send every document to Gemini for every question.
+
+Process only the authorized, relevant evidence needed for the current request.
+
+Do not load all family documents into the browser at once.
+
+Do not claim that the application can handle a specific number of simultaneous users without testing and supporting capacity estimates.
+
+Provide a practical load-testing plan for the deployed backend.
+
+# 24. NOTIFICATIONS CENTER
+
+Build a complete notification center.
+
+Notification types should include:
+- Upcoming premium.
+- Premium overdue.
+- Payment evidence required.
+- Payment awaiting verification.
+- Payment rejected.
+- Payment verified.
+- Policy renewal approaching.
+- Policy maturity approaching.
+- Document processing complete.
+- Document extraction requires review.
+- Important security event.
+- Medical follow-up reminder, if configured by the user.
+
+Each notification should have:
+- Type.
+- Title.
+- Concise message.
+- Creation timestamp.
+- Read/unread state.
+- Related record.
+- Direct navigation action.
+
+Allow users to mark notifications as read, configure notification preferences, and disable nonessential categories.
+
+Do not send sensitive information through push or email notifications unnecessarily.
+
+# 25. SETTINGS, PRIVACY AND DATA CONTROL
+
+Create a settings area with:
+- Profile preferences.
+- Language preference.
+- Light/dark theme.
+- Notification settings.
+- Family-sharing permissions.
+- Authentication and security settings.
+- Session management where supported.
+- Data export.
+- Document retention settings.
+- Account deletion.
+- Privacy information.
+- AI data-processing disclosures.
+
+Provide appropriate deletion workflows for documents and extracted records.
+
+Explain that deleting a document may affect associated summaries, searches, and payment evidence.
+
+Preserve legally or operationally necessary audit information only under a clearly documented retention policy.
+
+Support appropriate data minimization.
+
+Do not collect unnecessary identity or medical information.
+
+Do not claim compliance with a law or certification that has not been independently established.
+
+# 26. ACCESSIBILITY AND RESPONSIVE DESIGN
+
+The application must work on:
+- Desktop.
+- Laptop.
+- Tablet.
+- Mobile browsers.
+
+Implement:
+- Keyboard navigation.
+- Visible focus states.
+- Accessible labels.
+- Appropriate color contrast.
+- Screen-reader-friendly status messages.
+- Semantic HTML.
+- Reduced-motion support.
+- Readable font sizes.
+- Responsive tables and charts.
+- Mobile-friendly forms.
+- Touch targets of appropriate size.
+- Accessible dialogs and drawers.
+
+The family visualization must adapt to smaller screens without becoming unreadable.
+
+The persistent AI assistant must not cover essential controls.
+
+Emergency Mode must be particularly readable on mobile devices.
+
+# 27. REQUIRED PAGES
+
+Implement the following routes or equivalent navigable screens:
+
+1. Sign in.
+2. Register.
+3. Password reset.
+4. Main dashboard.
+5. Family members list.
+6. Family member details.
+7. Add or edit family member.
+8. Insurance policies list.
+9. Add policy.
+10. Policy detail.
+11. Edit policy.
+12. Document vault.
+13. Document detail and preview.
+14. Medical Passport.
+15. Add medical record.
+16. Coverage Analysis.
+17. Family Nominees.
+18. Premium Calendar.
+19. Payment History.
+20. Record Payment.
+21. Payment Evidence Review.
+22. Payment Verification.
+23. Notifications Center.
+24. Ask AI.
+25. Emergency Mode.
+26. Security and Activity Log.
+27. Settings.
+28. Privacy and Data Management.
+29. Help and Support.
+30. Optional isolated Demo Mode.
+
+Use meaningful empty states, loading states, error states, and success states on all relevant screens.
+
+# 28. REQUIRED SAMPLE DEMO
+
+Create a clearly separated demo mode for judging and testing.
+
+The demo may include fictional profiles for:
+- Father.
+- Mother.
+- Son 1.
+- Son 2.
+
+Create clearly labelled fictional insurance policies, sample medical records, sample nominees, sample payment schedules, and sample documents only where necessary.
+
+Never present invented policies or payments as real records.
+
+Never include actual Aadhaar numbers, real policy numbers, real personal medical information, or real banking screenshots in demo data.
+
+Demo data must be isolated from real users and must never appear in a new real account.
+
+The demo should demonstrate:
+- Clicking a family profile.
+- Opening an associated policy.
+- Viewing a document.
+- Asking a document-grounded AI question.
+- Viewing a premium reminder.
+- Submitting a fictional payment screenshot.
+- Reviewing the two-step verification workflow.
+- Entering Emergency Mode.
+- Opening a medical summary.
+
+If Gemini is not configured, the demo may use clearly labelled sample responses. Never present hardcoded demo responses as live AI results.
+
+# 29. VISUAL QUALITY ACCEPTANCE CRITERIA
+
+The UI must not look like a generic generated dashboard.
+
+Create:
+- A custom Guardian Stack identity.
+- A polished login experience.
+- A distinctive central family visualization.
+- Carefully designed typography.
+- Consistent spacing.
+- Purposeful colors.
+- Meaningful data visualizations.
+- Subtle, restrained motion.
+- A consistent icon system.
+- Carefully designed document cards and detail views.
+- Clear status indicators.
+- Well-designed empty states.
+- Refined dialogs and side panels.
+- Responsive layouts.
+- A working light/dark theme.
+
+Avoid:
+- Excessive gradients.
+- Rainbow-colored cards.
+- Unnecessary glassmorphism.
+- Repetitive identical card grids.
+- Oversized headings that waste space.
+- Excessive decorative animation.
+- Unreadable small text.
+- Random icon usage.
+- Fake statistics.
+- Placeholder buttons.
+- Generic "AI-powered" labels without actual functionality.
+
+Use distinct layouts for distinct tasks while maintaining one consistent design system.
+
+The final UI should feel like a thoughtfully designed, premium family protection product.
+
+# 30. TESTING REQUIREMENTS
+
+Create and execute appropriate tests.
+
+## Authentication tests
+
+- A logged-out user cannot access protected pages.
+- A user can register, sign in, and sign out.
+- Password reset follows the supported authentication workflow.
+- One user's records cannot be accessed by another user.
+
+## Document tests
+
+- Upload a valid PDF.
+- Reject unsupported file types.
+- Handle corrupted files.
+- Verify SHA-256 integrity.
+- Detect changes to document bytes when integrity verification is performed.
+- Extract text and page references when supported.
+- Show failed processing states.
+- Open a document from a policy and from an AI citation.
+- Enforce document access controls.
+
+## AI tests
+
+Test questions whose answers are present in a document.
+
+Test questions whose answers are absent.
+
+Test contradictory documents.
+
+Test documents containing malicious prompt-injection instructions.
+
+Test questions about the wrong family member.
+
+Test requests for unauthorized records.
+
+Test Gemini timeouts and rate limits.
+
+The AI must not invent unsupported facts or expose unauthorized information.
+
+## Payment tests
+
+- Submit a payment with evidence.
+- Confirm the two-step workflow.
+- Reject an incorrect screenshot.
+- Detect a mismatch between the amount entered and the amount visible in evidence where extraction supports it.
+- Prevent unsupported automatic verification.
+- Record a reviewer decision.
+- Preserve the audit history.
+- Prevent duplicate payment submissions where appropriate.
+- Ensure the payment does not become verified after an unsuccessful backend operation.
+
+## Reminder tests
+
+- Generate reminders at the configured intervals.
+- Prevent duplicate reminders.
+- Correctly handle time zones.
+- Handle overdue payments.
+- Create the next recurrence only according to the confirmed schedule.
+- Respect notification preferences.
+
+## Emergency tests
+
+- Enter Emergency Mode.
+- Deny location permission and show the fallback.
+- Handle Maps API failures.
+- Show authorized records only.
+- Open relevant documents from the emergency screen.
+- Keep the emergency interface usable on mobile.
+
+## Security tests
+
+- Attempt cross-account data access.
+- Attempt unauthorized storage access.
+- Test invalid input.
+- Test malformed requests.
+- Test rate limiting.
+- Verify that API secrets are not present in browser bundles.
+- Verify that private records are not included in public logs.
+- Test sensitive-action reauthentication.
+
+## UI tests
+
+- Verify navigation.
+- Verify the hamburger drawer.
+- Verify the AI assistant.
+- Verify the family visualization.
+- Verify form validation.
+- Verify mobile layouts.
+- Verify theme switching.
+- Verify empty, loading, error, and success states.
+
+Do not claim that tests passed unless they were actually executed.
+
+Report any test that could not be run and explain the missing dependency.
+
+# 31. IMPLEMENTATION WORKFLOW
+
+Work in the following order.
+
+## Phase 1 — Inspect and plan
+
+Inspect the available project files and existing implementation.
+
+Preserve working functionality where appropriate.
+
+Create a concise implementation plan and architecture.
+
+Do not overwrite useful code blindly.
+
+## Phase 2 — Foundation
+
+Implement:
+- Project structure.
+- Design system.
+- Responsive layouts.
+- Authentication pages.
+- Protected application routing.
+- Firebase initialization.
+- Environment configuration.
+- Database schema and security rules.
+
+## Phase 3 — Core records
+
+Implement:
+- Family member management.
+- Policy management.
+- Private document storage.
+- Document vault.
+- SHA-256 integrity verification.
+- Medical Passport.
+- Nominees.
+
+## Phase 4 — AI intelligence
+
+Implement:
+- Document ingestion.
+- OCR and parsing.
+- Structured extraction.
+- Evidence-linked field review.
+- Direct document lookup without RAG.
+- Gemini integration.
+- Citation-based answers.
+- Document navigation from AI responses.
+
+## Phase 5 — Payments and notifications
+
+Implement:
+- Premium schedules.
+- Calendar.
+- Payment evidence uploads.
+- Two-step payment verification.
+- Audit history.
+- Scheduled reminders.
+- In-app notifications.
+- Configured push and email integrations.
+
+## Phase 6 — Emergency and analytics
+
+Implement:
+- Family coverage visualization.
+- Coverage analysis.
+- SOS.
+- Hospital discovery.
+- Emergency Mode.
+- Emergency AI.
+- Medical-transfer summary.
+
+## Phase 7 — Quality and deployment
+
+Implement:
+- Automated tests.
+- Security review.
+- Error handling.
+- Performance improvements.
+- Accessibility checks.
+- Production build.
+- Deployment configuration.
+- Setup and maintenance documentation.
+
+Do not declare the project complete merely because Phase 1 or Phase 2 looks good.
+
+Continue through the remaining phases where the environment permits.
+
+# 32. FINAL DELIVERY REQUIREMENTS
+
+At the end of implementation, provide:
+
+1. A working application in the project workspace.
+2. The complete source code.
+3. A clear project directory structure.
+4. A description of the implemented architecture.
+5. Firebase setup instructions.
+6. Required environment variables.
+7. Gemini API setup instructions.
+8. Google Maps/Places setup instructions.
+9. Storage and database security rules.
+10. Database indexes.
+11. Backend deployment instructions.
+12. Notification scheduling instructions.
+13. A testing report.
+14. Known limitations.
+15. A list of features that require external configuration.
+16. Instructions to run the application locally.
+17. Instructions to deploy the application.
+18. A prioritized list of remaining production-hardening tasks.
+
+Never expose actual API keys or credentials in the documentation.
+
+Clearly distinguish:
+- Implemented and tested.
+- Implemented but not tested.
+- Requires external configuration.
+- Not implemented due to an explicit technical limitation.
+
+Do not claim a production-ready security audit has occurred unless an actual audit was performed.
+
+# 33. FINAL NON-NEGOTIABLE INSTRUCTIONS
+
+- Build Guardian Stack, not a generic insurance website.
+- Preserve every requirement in this specification.
+- Do not implement RAG.
+- Do not use vector embeddings or a vector database.
+- Do not fabricate document contents.
+- Do not fabricate payment verification.
+- Do not expose private records.
+- Do not hardcode personal data into real user accounts.
+- Do not use fake buttons or fake integrations.
+- Do not reveal API keys in frontend code.
+- Do not automatically mark a policy active without sufficient evidence.
+- Do not allow AI-generated medical interpretations to become verified medical facts.
+- Do not let uploaded document instructions override security rules.
+- Do not claim an operation succeeded until the backend confirms it.
+- Do not omit tests or deployment instructions.
+- Do not replace the requested UI with a plain dashboard.
+- Do not stop after producing a visual mockup.
+
+Prioritize correctness, privacy, reliability, speed, accessibility, and exceptional user experience.
+
+If a feature cannot be completed immediately, build the correct architectural foundation, implement the highest-value working version, document the limitation, and continue with the remaining requirements.
+
+**Begin by inspecting the workspace, establishing the architecture, and implementing the actual Guardian Stack application.**

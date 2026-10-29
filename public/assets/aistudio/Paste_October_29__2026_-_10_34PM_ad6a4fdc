@@ -1,0 +1,597 @@
+# GUARDIAN STACK — COMPLETE APPEND-ONLY ENHANCEMENT MASTER PROMPT
+## Intelligent Life Insurance Needs Finder & Digital Advisory Platform
+
+### 1. MOST IMPORTANT: PRESERVE MY EXISTING UI EXACTLY
+
+I really love the current Guardian Stack UI. **Keep the existing UI design exactly as it is. Do not redesign it.**
+
+This requirement takes priority over any new design ideas.
+
+- Preserve the existing visual identity, page layouts, spacing, typography, colors, gradients, backgrounds, cards, borders, shadows, icons, animations, navigation, family visualization, chatbot placement and overall premium appearance.
+- Do not replace the existing design with a generic dashboard, template, starter kit or AI-generated redesign.
+- Do not simplify existing pages or remove decorative elements.
+- Do not change the current layout merely to accommodate the new module. Integrate the module using the existing design system and established component patterns.
+- Reuse the application's current components, CSS variables, themes, navigation, cards, buttons, modal patterns and responsive breakpoints.
+- Keep the existing family visualization, left-side navigation drawer, persistent AI chatbot, Guardian Pulse interface and all previously implemented functionality.
+- If a new screen or component is required, make it look as though it was designed as part of the original Guardian Stack application.
+- Do not change the existing UI just because you think another design would look better.
+- Before editing, inspect the existing project, identify its framework, current pages, theme implementation, routing, components and backend architecture.
+- Make targeted changes instead of replacing entire files or rebuilding the application from scratch.
+- Preserve existing working functionality and fix regressions introduced by your changes.
+
+**Acceptance criterion:** Someone comparing the application before and after this enhancement should immediately recognize the same Guardian Stack design. The new capabilities should feel native to the existing application.
+
+### 2. CRITICAL APPEND-ONLY DEVELOPMENT RULE
+
+Extend the existing Guardian Stack project. Do not create a disconnected second application.
+
+Preserve all existing features, including:
+
+- Guardian Pulse and the family protection digital twin.
+- Family members and interactive family visualization.
+- Insurance policy and document vault.
+- PDF uploads, document extraction and source-grounded AI answers.
+- Medical Passport and hospital-transfer summaries.
+- Premium reminders and recurring schedules.
+- Payment screenshot evidence, verification statuses and audit history.
+- Family nominees and beneficiary information.
+- Emergency access controls and family continuity features.
+- SOS, location permission and nearby hospital discovery.
+- Emergency scenario simulation and protection-gap detection.
+- Existing authentication, database, storage, security rules and audit logging.
+- Existing AI chatbot and document search functionality.
+- Existing light mode, dark mode and any other functioning features.
+
+Do not remove existing capabilities to make room for the new module. Avoid duplicating data, authentication systems or services.
+
+If an existing feature needs a small change for integration, make only the necessary change and preserve its behavior.
+
+Do not use placeholder buttons, fake calculations, hardcoded success messages or nonfunctional controls. Implement actual frontend interactions, backend calculations, validation, persistence and tests.
+
+---
+
+### 3. MANDATORY: MAKE LIGHT AND DARK MODE SWITCHING WORK
+
+The existing theme toggle must work correctly. Do not merely display a theme button.
+
+Implement or repair the actual theme-switching functionality while preserving the existing appearance of both themes.
+
+Requirements:
+
+1. When the user clicks the existing theme toggle while in light mode, switch the entire application to dark mode.
+2. When the user clicks it in dark mode, switch the entire application to light mode.
+3. Update every relevant part of the interface, including the navigation drawer, header, family visualization, cards, dialogs, forms, charts, chatbot, notifications, new insurance calculator and newly added components.
+4. Change the toggle icon and accessible label to reflect the available action or current theme.
+5. Apply theme changes immediately without refreshing the page.
+6. Use the existing theme system if one is already present. Do not introduce a competing theme mechanism.
+7. Define and consistently use theme variables or the existing theme tokens for backgrounds, text, surfaces, borders, inputs, overlays and interactive states.
+8. Preserve the intended colors, contrast, readability, shadows and visual hierarchy in both themes.
+9. Ensure that new components inherit the selected theme rather than forcing their own hardcoded colors.
+10. Prevent flash-of-wrong-theme behavior during application initialization where possible.
+11. Persist the user's theme preference across navigation and subsequent visits using the existing persistence mechanism or a suitable client-side preference store.
+12. If the project supports system theme detection, use it as the initial preference when the user has not selected a theme. Once the user explicitly chooses a theme, respect that choice.
+13. Ensure keyboard accessibility and a meaningful accessible label for the toggle.
+14. Test switching light → dark → light, navigating between pages, refreshing the application and reopening the application.
+
+**Do not claim theme switching is complete until both themes visibly work across the entire application and the toggle actually changes the theme when clicked.**
+
+---
+
+### 4. ADD A NEW FIRST-CLASS MODULE: LIFE INSURANCE NEEDS FINDER
+
+Add a navigation item called **Life Insurance Needs Finder** to the existing Guardian Stack navigation.
+
+This module must be integrated into the existing application and provide a complete four-stage customer journey:
+
+1. Financial assessment questionnaire.
+2. Personalized coverage calculation and visual breakdown.
+3. Product comparison and interactive benefit customization.
+4. Digital advisory and specialist consultation scheduling.
+
+Use the existing UI design. Do not redesign the main application to make this module prominent.
+
+Provide progress indicators, back and continue actions, editable answers, input validation, draft persistence, helpful financial definitions and appropriate loading, empty, success and error states.
+
+### 5. STAGE ONE: FINANCIAL ASSESSMENT
+
+Build a working questionnaire that collects the information needed to estimate a user's life insurance needs.
+
+**Personal information**
+- Age and, if necessary, date of birth.
+- Country and currency.
+- Employment and occupation category.
+- Annual gross income.
+- Annual take-home income, if available.
+- Expected retirement age.
+- Annual financial contribution to the household.
+
+**Family responsibilities**
+- Number of financial dependents.
+- Dependents' approximate ages.
+- Estimated years of financial support required.
+- Marital status, when relevant.
+- Expected changes in family responsibilities.
+
+**Liabilities and future goals**
+- Outstanding home loans.
+- Other outstanding loans.
+- Immediate family expenses.
+- Future education expenses.
+- Planned major expenses.
+- Other financial obligations and goals.
+- Existing savings and investments available for these obligations.
+- Emergency fund, separately identified.
+- Existing personal life insurance.
+- Employer-provided life cover, where applicable.
+
+**Preferences**
+- Monthly or annual premium budget.
+- Preferred policy term.
+- Preference for pure protection, lifelong protection or savings/investment-linked products.
+- Risk tolerance for products with investment exposure.
+- Preferred premium payment frequency.
+- Other optional preferences relevant to product suitability.
+
+Provide sensible defaults only where appropriate, and clearly label them. Do not silently assume unknown financial values are zero.
+
+Use Guardian Stack records to offer optional prefilling when the authenticated user has existing policies or relevant financial information. Show where extracted information came from and ask the user to confirm it before calculation.
+
+Never assume that an absent document means that the user has no policy.
+
+Allow users to edit their answers and save incomplete assessments securely.
+
+### 6. STAGE TWO: REAL FINANCIAL NEEDS CALCULATION ENGINE
+
+Implement the calculations in a testable backend service. Do not rely on Gemini or another language model to perform financial arithmetic.
+
+Support at least two calculation methods.
+
+**A. Human Life Value (HLV)**
+
+Estimate the present value of future financial contributions to the family.
+
+Allow the user to review:
+- Current annual family contribution.
+- Expected annual contribution growth.
+- Number of years of financial support.
+- Assumed discount rate.
+- Retirement horizon.
+- Assets specifically allocated to family protection.
+
+Use a discounted cash-flow calculation:
+
+PV = Σ [C × (1 + g)^(t−1) / (1 + r)^t], for t = 1 through n.
+
+Here:
+- C is the first year's annual contribution.
+- g is the annual growth rate.
+- r is the annual discount rate.
+- n is the number of years.
+- t is the year number.
+
+Handle the special case where growth equals the discount rate without division by zero. Validate rates, time periods and inputs. Keep nominal and real assumptions consistent.
+
+Explain that HLV is an estimate of the present value of future family contributions, not a guaranteed or universally correct coverage amount.
+
+**B. Net Needs Approach**
+
+Calculate estimated required cover using a documented and configurable formula:
+
+Estimated Required Cover =
+Outstanding Liabilities
++ Immediate Family Expenses
++ Present Value of Future Family Support
++ Education and Other Financial Goals
++ Other Specified Obligations
+− Assets Allocated to These Needs
+− Existing Life Insurance Cover
+
+Avoid double-counting expenses, assets and liabilities.
+
+Allow users to choose which assets should offset financial needs. Do not automatically count illiquid assets or retirement savings as fully available to dependents.
+
+Calculate:
+
+- Estimated total cover required.
+- Existing cover counted in the assessment.
+- Estimated additional cover required.
+- Any apparent coverage surplus under the selected assumptions.
+
+Do not advise cancellation of an existing policy solely because the estimate indicates excess coverage.
+
+**C. Calculation reliability**
+
+- Validate inputs on both the frontend and backend.
+- Use appropriate currency precision and rounding.
+- Handle missing values, invalid rates, negative values and unusually large numbers safely.
+- Avoid integer overflow and floating-point errors where financial precision matters.
+- Define sensible limits and show validation messages instead of crashing.
+- Write unit tests for ordinary cases, edge cases and special mathematical cases.
+- Keep formulas versioned and documented so results are reproducible.
+- Store the calculation timestamp, user-confirmed inputs, assumptions, method and result.
+- Allow users to rerun calculations when circumstances change.
+
+**D. Compare methods**
+
+Display HLV and Net Needs estimates side by side.
+
+Explain why their results differ. Do not arbitrarily average the results or present either as a guaranteed exact amount.
+
+If a recommendation range is shown, explain how the lower and upper values were determined. Identify the assumptions that have the greatest effect on the result.
+
+### 7. VISUAL COVERAGE BREAKDOWN
+
+Create an interactive visual report using the existing Guardian Stack chart and card styles.
+
+Display:
+- Estimated total financial protection need.
+- Existing personal life cover.
+- Existing employer-provided cover, if included.
+- Outstanding liabilities.
+- Family income replacement requirement.
+- Education and other future goals.
+- Assets counted toward financial needs.
+- Estimated additional coverage gap.
+
+Use clear charts and explanatory labels. Provide a text-based equivalent for accessibility.
+
+When users change relevant assessment inputs, update the estimates and charts consistently.
+
+Every displayed number must come from the calculation engine or saved, user-confirmed data. Never hardcode sample results into a real user's assessment.
+
+Clearly label demo data as demo data.
+
+### 8. STAGE THREE: INTELLIGENT PRODUCT RECOMMENDATION ENGINE
+
+Build a deterministic, explainable recommendation service that matches the user's needs to suitable life insurance product categories.
+
+Support comparisons involving:
+
+**Term Life Insurance**
+- Death benefit.
+- Policy duration.
+- Premium affordability.
+- Protection needs and exclusions to investigate.
+
+**Whole Life Insurance**
+- Intended lifelong protection.
+- Premium structure.
+- Relevant policy conditions.
+- Cash-value features, only when applicable to the actual product.
+
+**Endowment Insurance**
+- Protection and savings components.
+- Maturity benefit conditions.
+- Premium commitment.
+- Liquidity limitations and relevant costs.
+
+**Unit-Linked Insurance Plans (ULIPs)**
+- Insurance and investment components.
+- Investment risk.
+- Applicable fees and charges.
+- Lock-in and withdrawal restrictions.
+- Non-guaranteed investment outcomes.
+
+The recommendation engine must consider:
+- Estimated coverage gap.
+- Premium budget.
+- Age and intended protection duration.
+- Dependents and financial responsibilities.
+- Existing insurance.
+- Product eligibility, when verified.
+- Risk preferences.
+- Savings or investment preferences.
+- Available product information and its freshness.
+
+Do not automatically recommend an investment-linked or savings-oriented product when straightforward protection better matches the stated need.
+
+Do not claim one product category is universally best.
+
+For every recommendation, show:
+1. Why it matches the user's needs.
+2. What need it is intended to address.
+3. Important trade-offs.
+4. Premium affordability considerations.
+5. Exclusions, eligibility conditions and charges that need verification.
+6. The information used to generate the recommendation.
+7. Missing information that could change the recommendation.
+
+Distinguish a product category recommendation from a recommendation for a specific insurer's product.
+
+Only recommend specific products using reliable, current product data. If no verified product catalogue or insurer integration exists, display clearly labelled illustrative product profiles and explain that they are not live insurer offers.
+
+Do not invent insurer names, product terms, premiums, benefits, eligibility or returns.
+
+### 9. INTERACTIVE POLICY LAB
+
+Build a working policy customization interface using interactive sliders and input fields.
+
+Allow users to explore:
+- Life cover amount.
+- Policy duration.
+- Premium budget.
+- Premium payment frequency.
+- Relevant optional product features, when the selected product actually supports them.
+
+When a slider or input changes, immediately update:
+- The selected cover amount.
+- The estimated coverage gap.
+- The relationship between the chosen cover and calculated needs.
+- Any affordability indicator.
+- The policy comparison.
+- The visual breakdown.
+- The scenario results affected by the changed assumptions.
+
+**Premium estimates must be handled carefully.**
+
+If an insurer pricing API or verified rate table is available, use it according to its documented eligibility and pricing rules.
+
+Otherwise, use a clearly labelled illustrative estimate with an explicitly documented calculation model and assumptions. Do not present it as an actual insurer quote.
+
+Explain that actual premiums can depend on age, health disclosures, smoking status, underwriting, policy terms, riders, insurer rules and other factors.
+
+Never claim that a user is eligible for a policy before the relevant eligibility requirements have been checked.
+
+Provide reset-to-recommended-values and compare-with-current-selection controls.
+
+### 10. LIFE SCENARIO SIMULATOR
+
+Extend Guardian Pulse with a dedicated **Life Insurance Scenario Simulator**.
+
+Do not replace or break the existing emergency simulator. Integrate this as an additional scenario category.
+
+Allow users to explore situations such as:
+- The primary earner dies unexpectedly.
+- A new child or dependent joins the family.
+- A home loan is taken out or significantly increased.
+- Annual income changes.
+- A dependent's education expenses increase.
+- Retirement approaches earlier than expected.
+- An existing policy expires.
+- Employer-provided insurance is lost after changing jobs.
+- A major financial goal changes.
+- A family member's contribution to household expenses changes.
+
+For each scenario:
+1. Let the user modify the relevant assumptions.
+2. Recalculate the affected financial needs.
+3. Show the difference between the previous and new estimates.
+4. Explain the principal drivers of the change.
+5. Update the estimated coverage gap.
+6. Suggest practical next steps.
+7. Allow users to save, compare and revisit scenarios.
+
+Use clearly labelled hypothetical assumptions. Do not portray a simulation as a prediction of future events or an assurance that a claim will be paid.
+
+### 11. STAGE FOUR: DIGITAL ADVISORY MODULE
+
+Add an interactive digital advisory experience integrated with the existing Guardian Stack AI chatbot.
+
+The assistant should be able to explain:
+- The meaning of HLV and the Net Needs Approach.
+- How the user's estimated cover was calculated.
+- Why a product category was suggested.
+- Differences between term, whole life, endowment and ULIP products.
+- Premium affordability and policy-duration trade-offs.
+- The assumptions and limitations behind the calculation.
+- Questions the user should ask an insurer or licensed advisor.
+- What information is missing from the current assessment.
+
+Use the user's saved assessment only after appropriate authentication and authorization.
+
+For calculation-specific questions, retrieve the actual calculation inputs and results from the backend. Do not ask the AI to invent or independently recalculate financial results.
+
+Provide source references to relevant saved policy documents where applicable. Clearly distinguish documented facts, user-entered assumptions, illustrative examples and general educational information.
+
+Do not claim to provide regulated professional financial advice unless the appropriate licensed service and compliance framework genuinely exist.
+
+### 12. ADVISOR CONSULTATION SCHEDULER
+
+Implement a functional consultation booking interface.
+
+Allow the user to:
+- Choose an available date.
+- Select an available time slot.
+- Choose a consultation topic.
+- Enter contact preferences.
+- Review and confirm booking details.
+- Cancel or reschedule according to the application's rules.
+- View booking status and booking history.
+
+Use an actual connected calendar, advisor scheduling service or backend-managed availability system when configured.
+
+If no real advisors or calendar integration exists, provide an explicitly labelled simulated consultation scheduler with sample availability. Store simulated bookings separately from real bookings and never imply that a real advisor has been notified or a confirmed appointment exists when it has not.
+
+Prevent duplicate bookings, validate time slots on the backend, handle timezone conversion and prevent conflicting bookings.
+
+Clearly distinguish:
+- Draft booking.
+- Simulated booking.
+- Booking request submitted.
+- Confirmed real appointment.
+
+Only display a confirmed real appointment after the connected service or authorized backend confirms it.
+
+### 13. PERSONALIZED REPORT AND ACTION PLAN
+
+Generate a downloadable or printable report containing:
+- Assessment summary.
+- User-confirmed financial inputs.
+- HLV calculation and assumptions.
+- Net Needs calculation and assumptions.
+- Existing coverage included in the assessment.
+- Estimated additional cover required.
+- Product category comparison.
+- Interactive policy selection at the time of report generation.
+- Saved scenario comparisons.
+- Questions for an insurer or advisor.
+- Important limitations and missing information.
+- Calculation date and formula version.
+
+Use the application's existing report-generation technology where available. Do not expose another family member's private financial or insurance information.
+
+Allow the user to save the assessment and revisit it later.
+
+### 14. INTEGRATION WITH GUARDIAN STACK
+
+The new module must connect to existing features rather than operate as an isolated calculator.
+
+**Insurance vault integration**
+- Offer to import existing life insurance cover from authorized policy records.
+- Display the source document and extracted fields.
+- Ask the user to confirm uncertain values.
+- Flag expired, missing or uncertain information for review.
+- Never assume a policy is active simply because its listed end date is in the future.
+
+**Guardian Pulse integration**
+- Include coverage gaps and incomplete assessments as potential protection issues.
+- Explain the evidence and assumptions behind every issue.
+- Provide a clear next-action checklist.
+- Allow users to resolve issues and rerun the assessment.
+
+**Family integration**
+- Use authorized dependent and household information to prefill assessment fields.
+- Let the user review all imported information.
+- Keep personal assessments private unless sharing is explicitly authorized.
+- Never automatically expose one adult family member's sensitive financial data to another.
+
+**Premium reminder integration**
+- Allow relevant saved policies to link to their existing reminder schedules.
+- Preserve the existing payment evidence and verification workflow.
+- Do not mark a premium paid merely because a user submits a screenshot.
+- Do not claim independent insurer payment verification without a trusted verification source.
+
+**AI assistant integration**
+- Let the existing chatbot explain results and guide the user to the correct module.
+- Keep document-based answers grounded in retrieved source material.
+- Do not break existing document search behavior or introduce a vector database if the current project specification prohibits one.
+- Use deterministic backend calculations for all financial arithmetic.
+
+### 15. SECURITY, PRIVACY AND RELIABILITY
+
+Financial, family, identity and medical information is sensitive. Preserve all existing security requirements and implement additional safeguards where necessary.
+
+- Require authentication for personal assessments.
+- Enforce authorization on the backend, not merely in the frontend.
+- Ensure users can access only their own assessments and explicitly shared information.
+- Validate every request and sanitize untrusted inputs.
+- Keep API keys and secret credentials on the server.
+- Apply database security rules and least-privilege access.
+- Encrypt sensitive information in transit and at rest using suitable mechanisms.
+- Do not treat SHA-256 hashing as encryption.
+- Record important changes in an audit log without unnecessarily logging sensitive content.
+- Prevent unauthorized access through guessed record identifiers.
+- Rate-limit sensitive endpoints and external AI/API calls.
+- Handle failures without leaking private information.
+- Avoid storing unnecessary personal data.
+- Provide appropriate deletion and data-retention behavior.
+- Keep financial calculations reproducible and auditable.
+
+Do not make a financial recommendation dependent on unverified extracted data without identifying that uncertainty.
+
+### 16. BACKEND AND DATA MODEL
+
+Inspect the existing backend before implementation. Reuse its database, authentication, storage and service patterns.
+
+Extend the schema as necessary to support entities such as:
+
+- Financial assessments.
+- Assessment inputs and confirmed values.
+- Calculation methods and formula versions.
+- Calculation results and assumptions.
+- Existing coverage references.
+- Product catalogue entries and source timestamps.
+- Product comparison results.
+- Policy customization scenarios.
+- Saved life-event scenarios.
+- Advisor availability.
+- Consultation booking requests and statuses.
+- Report metadata.
+- Audit events.
+
+Use suitable relationships, ownership checks, indexes, validation, timestamps and transaction handling.
+
+Do not create a duplicate user or policy table if an appropriate existing entity can be extended safely.
+
+Keep sensitive records private and ensure backend calculations cannot be manipulated by trusting client-submitted results.
+
+### 17. TESTING AND ACCEPTANCE REQUIREMENTS
+
+Before declaring completion, test the following.
+
+**UI preservation**
+- Existing Guardian Stack pages still look and behave as before.
+- The family visualization and navigation drawer remain functional.
+- Guardian Pulse, SOS, the medical passport, document vault, reminders and chatbot remain operational.
+- New components match the existing design.
+
+**Theme switching**
+- Clicking the theme button switches light to dark.
+- Clicking again switches dark to light.
+- The entire interface updates without refreshing.
+- The selected theme survives navigation and reloads.
+- New charts, modals, forms, cards and the chatbot use the selected theme correctly.
+
+**Financial engine**
+- HLV produces expected results for known test cases.
+- Net Needs calculations are correct and reproducible.
+- Growth equal to discount rate is handled safely.
+- Negative, missing, extreme and invalid values are handled appropriately.
+- Existing coverage is not counted twice.
+- Zero or excess coverage gaps are displayed correctly.
+- Saved results retain their inputs and formula version.
+
+**Product engine**
+- Recommendations change when relevant inputs change.
+- Budget and coverage constraints are respected.
+- Unsupported products are not shown as verified offers.
+- Product explanations include reasons and limitations.
+
+**Policy Lab and scenarios**
+- Sliders and inputs actually update the displayed calculations.
+- Scenario changes produce consistent recalculated results.
+- Saved scenarios can be reopened.
+- Illustrative premiums are clearly labelled.
+
+**Advisory and scheduling**
+- AI explanations use real assessment data.
+- Invalid bookings are rejected.
+- Duplicate or conflicting bookings are handled.
+- Simulated appointments are never presented as real confirmations.
+
+**Security and persistence**
+- Users cannot access another user's private assessment.
+- Data persists across sessions as intended.
+- Unauthorized backend requests are rejected.
+- Existing authentication and security features continue to work.
+
+Create automated unit tests for the financial engine and integration tests for the most important backend flows. Run available tests and fix failures introduced by the enhancement.
+
+### 18. IMPLEMENTATION AND DELIVERY RULES
+
+Work in the existing project rather than merely describing how it could be built.
+
+Implement the changes in a sensible order:
+1. Inspect and preserve the current application.
+2. Verify and fix the existing light/dark theme toggle.
+3. Implement the financial assessment and backend calculation engine.
+4. Add the visual breakdown and product recommendation service.
+5. Add the interactive Policy Lab.
+6. Integrate the life-event simulator with Guardian Pulse.
+7. Implement the digital advisory module and consultation scheduler.
+8. Integrate existing insurance records and the AI assistant.
+9. Add report generation, persistence, security and automated tests.
+10. Run regression checks on existing features.
+
+If an external API, licensed advisor service, real-time insurer catalogue or premium quotation service is unavailable, implement a clear simulation or integration placeholder only for that external dependency. Do not simulate the core calculation engine or pretend an external action succeeded.
+
+At completion, provide:
+- A summary of new functionality implemented.
+- A list of existing features preserved.
+- Confirmation of the actual light/dark switching behavior tested.
+- The calculation formulas and assumptions used.
+- The test results.
+- Any external integrations that remain simulated.
+- Any configuration or deployment steps still required.
+
+**Final instruction:** Preserve the current Guardian Stack UI and all existing functionality. Make the existing theme toggle genuinely work. Append a complete, functional Intelligent Life Insurance Needs Finder & Digital Advisory Platform, with reliable calculations, transparent recommendations, interactive scenarios and a working or explicitly simulated consultation workflow. Do not sacrifice existing features for the new ones.
